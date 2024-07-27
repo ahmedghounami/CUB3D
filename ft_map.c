@@ -1,112 +1,64 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_map.c                                           :+:      :+:    :+:   */
+/*   cub3d.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hboudar <hboudar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/07/25 13:01:36 by hboudar           #+#    #+#             */
-/*   Updated: 2024/07/26 13:38:58 by hboudar          ###   ########.fr       */
+/*   Created: 2024/07/25 10:03:57 by hboudar           #+#    #+#             */
+/*   Updated: 2024/07/26 18:01:23 by hboudar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-void    ft_init_texture(t_cube *cube)
+void    ft_error(char *msg)
 {
-    cube->texture.flag = 0;
-    cube->file = NULL;
-    cube->map = NULL;
-    cube->texture.north = NULL;
-    cube->texture.south = NULL;
-    cube->texture.west = NULL;
-    cube->texture.east = NULL;
-    cube->texture.floor = NULL;
-    cube->texture.ceiling = NULL;
-    
+    ft_putstr_fd(msg, 2);
+    exit (EXIT_FAILURE);
 }
 
-static void check_name(int argc, char *str)
+void	print_file(t_cube *cube)
 {
-    int i;
+	int i;
 
-    i = 0;
-    if (str == NULL)
-    {
-        write(2, "Error : No file\n", 16);
-        exit (EXIT_FAILURE);
-    }
-    else if (argc > 2)
-    {
-        write(2, "Error : Too many arguments\n", 28);
-        exit (EXIT_FAILURE);
-    }
-    while (str[i])
-        i++;
-    if (i < 4 || str[i - 1] != 'b' || str[i - 2] != 'u' || str[i - 3] != 'c' || str[i - 4] != '.')
-    {
-        write(2, "Error : Wrong file extension\n", 29);
-        exit (EXIT_FAILURE);
-    }
-    else if (access(str, F_OK) == -1)
-    {
-        write(2, "Error : File doesn't exist\n", 28);
-        exit (EXIT_FAILURE);
-    }
+	i = 0;
+	while (cube->file[i])
+	{
+		printf("%s\n", cube->file[i]);
+		i++;
+	}
+	printf("North : %s\n", cube->texture.north);
+	printf("South : %s\n", cube->texture.south);
+	printf("West : %s\n", cube->texture.west);
+	printf("East : %s\n", cube->texture.east);
+	
+	
+} 
+int    key_hook(int keycode, void *param)
+{
+	(void)param;
+    if (keycode == 53)
+        exit(0);
+    return (0);
 }
 
-void    parse_textures(t_cube *cube)
+// void	f(void)
+// {
+// 	system("leaks cub3D");
+// }
+
+int	main(int argc, char **argv)
 {
-    int i;
+	t_cube	cube;
 
-    i = 0;
-    if (!cube->file)
-        ft_error("Error : ft_split failed\n");
-    while (cube->file[i] && i < 6)
-    {
-        if (cube->file[i][0] == 'N' && cube->file[i][1] == 'O' && cube->file[i][2] == ' ')
-            get_element(cube, cube->file[i], 'N');
-        else if (cube->file[i][0] == 'S' && cube->file[i][1] == 'O' && cube->file[i][2] == ' ')
-            get_element(cube, cube->file[i], 'S');
-        else if (cube->file[i][0] == 'W' && cube->file[i][1] == 'E' && cube->file[i][2] == ' ')
-            get_element(cube, cube->file[i], 'W');
-        else if (cube->file[i][0] == 'E' && cube->file[i][1] == 'A' && cube->file[i][2] == ' ')
-            get_element(cube, cube->file[i], 'E');
-        else if (cube->file[i][0] == 'F' && cube->file[i][1] == ' ')
-            get_element(cube, cube->file[i], 'F');
-        else if (cube->file[i][0] == 'C' && cube->file[i][1] == ' ')
-            get_element(cube, cube->file[i], 'C');
-        i++;
-    }
-    if (cube->texture.flag > 6)
-        ft_error("Error : Too many elements\n");
-}
-
-
-void	is_map_valid(int argc, char *argv[], t_cube *cube)
-{
-    char *line;
-    char *tmp;
-
-    check_name(argc, argv[1]);
-    cube->fd = open(argv[1], O_RDONLY);
-    if (cube->fd == -1)
-    {
-        write(2, "Error : Can't open the file\n", 29);
-        exit (EXIT_FAILURE);
-    }
-    ft_init_texture(cube);
-    line = get_next_line(cube->fd);
-    tmp = ft_strdup("");
-    while(line)
-    {
-        tmp = ft_strjoin(tmp, line);
-        line = get_next_line(cube->fd);
-    }
-    cube->file = ft_split(tmp, '\n');
-    free(tmp);
-    parse_textures(cube);
-    if (!cube->texture.north || !cube->texture.south || !cube->texture.west
-        || !cube->texture.east || !cube->texture.floor || !cube->texture.ceiling)
-        ft_error("Error : Missing element\n");
+	// atexit(f);
+	is_map_valid(argc, argv, &cube);
+	parse_textures(&cube, 0);
+    parse_mape(&cube);
+	cube.mlx = mlx_init();
+	cube.mlx_win = mlx_new_window(cube.mlx, 1920, 1080, "Hello world!");
+    mlx_key_hook(cube.mlx_win, key_hook, (void *)0);
+	mlx_loop(cube.mlx);
+	
 }
