@@ -19,13 +19,13 @@ int check_elem(char **map, t_cube *cube)
     int count;
 
     count = 0;
-    x = 0;
+    x = 0; 
     while (map[x])
     {
         y = 0;  
         while (map[x][y])
         {
-            if (map[x][y] != '0' && map[x][y] != '1' && map[x][y] != 'N'
+            if (map[x][y] != '0' && map[x][y] != '1' && map[x][y] != 'N' 
                 && map[x][y] != 'S' && map[x][y] != 'W' && map[x][y] != 'E'
                     && map[x][y] != ' ')
                 return (0);
@@ -44,7 +44,7 @@ int check_elem(char **map, t_cube *cube)
 int just_space(char *str)
 {
     int i = 0;
-    while (str[i])
+    while (str[i]) 
     {
         if (str[i] != ' ')
             return 0;

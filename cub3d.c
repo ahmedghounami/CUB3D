@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hboudar <hboudar@student.42.fr>            +#+  +:+       +#+        */
+/*   By: aghounam <aghounam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/25 10:03:57 by hboudar           #+#    #+#             */
-/*   Updated: 2024/07/29 19:34:09 by hboudar          ###   ########.fr       */
+/*   Updated: 2024/08/18 19:12:59 by aghounam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,137 +18,81 @@
 
 static mlx_image_t* image;
 
-int32_t ft_pixel(int32_t r, int32_t g, int32_t b, int32_t a)
-{
-    return (r << 24 | g << 16 | b << 8 | a);
-}
-
-
 void get_player_position(t_cube *cube)
 {
     int x = 0;
     int y = 0;
-    while (cube->map[x])
+    while (cube->map[y])
     {
-        y = 0;
-        while (cube->map[x][y])
+        x = 0;
+        while (cube->map[y][x])
         {
-            if (cube->map[x][y] == 'W')
+            if (cube->map[y][x] == 'W')
             {
-                cube->player_X_pixel = y * cube->x_pixel + cube->x_pixel / 2;
-                cube->player_Y_pixel = x * cube->y_pixel + cube->y_pixel / 2;
-                cube->playerX = y;
-                cube->playerY = x;
-                return ;
+                cube->player_X_pixel = x * TILE_SIZE + TILE_SIZE / 2;
+                cube->player_Y_pixel = y * TILE_SIZE + TILE_SIZE / 2;
+                cube->playerX = x;
+                cube->playerY = y;
+                // return ;
             }
-            y++;
+            x++;
         }
-        x++;
+        y++;
     }
+    cube->columx = x;
+    cube->columy = y;
 }
-void ft_render_pixel_player(int32_t color, t_cube *cube)
+void rander_wall(int32_t color, t_cube *cube)
 {
-    int i, j;
-    int title;
-    if (cube->x_pixel < cube->y_pixel)
-        title = cube->x_pixel;
-    else
-        title = cube->y_pixel;
-    // Draw a circle for the player
-    for (i = 0; i < title / 4; i++)
-    {
-        for (j = 0; j < title / 4; j++)
-        {
-            mlx_put_pixel(image, cube->player_X_pixel + i, cube->player_Y_pixel + j, color);
-            mlx_put_pixel(image, cube->player_X_pixel - i, cube->player_Y_pixel + j, color);
-            mlx_put_pixel(image, cube->player_X_pixel + i, cube->player_Y_pixel - j, color);
-            mlx_put_pixel(image, cube->player_X_pixel - i, cube->player_Y_pixel - j, color);
-        }
-    }
-
-    // Draw direction line
+    int i;
+    double distance_oriz = 0;
+    double distance_vert = 0;
+    double angle = cube->player_angle - M_PI / 6;
+    if (angle < 0)
+        angle += 2 * M_PI;
+    printf("angle = %f\n", angle);
+    int rays = WIDTH;
     i = 0;
-    double angle = cube->player_angle;
-    int k = 0;
-    while (k < 160)
+    while (i < rays)
     {
-        while (1)
-        {
-            int x = (int)(cube->player_X_pixel + cos(angle) * i);
-            int y = (int)(cube->player_Y_pixel + sin(angle) * i);
-            if (cube->map[(int)(y / cube->y_pixel)][(int)(x / cube->x_pixel)] == '1')
-                break;
-            mlx_put_pixel(image, x, y, color);
-            i++;
+        if (angle > 0 && angle <= M_PI_2)
+            down_rightrays(cube, image, angle);
+        else if (angle > M_PI_2 && angle <= M_PI)
+            down_leftrays(cube, image, angle);
+        else if ((angle >= M_PI && angle < M_PI + M_PI_2) || (angle >= M_PI + M_PI_2 && angle <= 2 * M_PI))
+            left_right_rays(cube, image, angle);
+        
+        distance_oriz = sqrt(pow(cube->player_X_pixel - cube->orizontal_position_x, 2) + pow(cube->player_Y_pixel - cube->orizontal_position_y, 2));
+        distance_vert = sqrt(pow(cube->player_X_pixel - cube->vertical_position_x, 2) + pow(cube->player_Y_pixel - cube->vertical_position_y, 2));
+        double raydistance;
+        double wallstripheight;
+        if (distance_oriz > distance_vert)
+            raydistance = distance_vert;
+        else
+            raydistance = distance_oriz;
+        wallstripheight = (WIDTH / raydistance) * 64;
+        int32_t color = ft_pixel(0xFF, 0x00, 0x00, 0xFF);
+        int x = i;
+        double startY = (HEIGHT / 2) - (wallstripheight / 2);
+        double endY = startY + wallstripheight;
+        for (int y = startY; y < endY; y++) {
+            if (y >= 0 && y < HEIGHT && x >= 0 && x < WIDTH) {
+                mlx_put_pixel(image, x, y, color);
+            }
         }
-        angle += 0.003;
-        k++;
-        i = 0;
-    }
-    angle = cube->player_angle;
-    k = 0;
-    while (k < 160)
-    {
-        while (1)
-        {
-            int x = (int)(cube->player_X_pixel + cos(angle) * i);
-            int y = (int)(cube->player_Y_pixel + sin(angle) * i);
-            if (cube->map[(int)(y / cube->y_pixel)][(int)(x / cube->x_pixel)] == '1')
-                break;
-            mlx_put_pixel(image, x, y, color);
-            i++;
-        }
-        angle -= 0.003;
-        k++;
-        i = 0;
-    }
-    
-}
-
-
-void ft_render_pixel(int32_t x, int32_t y, int32_t color, t_cube *cube)
-{
-    int i, j;
-    i = 0;
-    j = 0;
-    while (i < cube->x_pixel - 2)
-    {
-        j = 0;
-        while (j < cube->y_pixel - 2)
-        {
-            mlx_put_pixel(image, x * cube->x_pixel + i, y * cube->y_pixel + j, color);
-            j++;
-        }
+        angle += FOV / WIDTH;
         i++;
-    }
+    }       
 }
 
 void ft_randomize(void* param)
 {
     t_cube* cube = (t_cube *)param;
-    int x = 0;
-    int y = 0;
     mlx_delete_image(cube->mlx, image);
     image = mlx_new_image(cube->mlx, (int32_t)WIDTH, (int32_t)HEIGHT);
     mlx_image_to_window(cube->mlx, image, 0, 0);
-
-    while (cube->map[x])
-    {
-        y = 0;
-        while (cube->map[x][y])
-        {
-            if (cube->map[x][y] == '1')
-               ft_render_pixel( y, x, ft_pixel(0xFF, 0xFF, 0xFF, 0xFF), cube); // White
-            else if (cube->map[x][y] == '0' || cube->map[x][y] == ' ')
-               ft_render_pixel( y, x, ft_pixel(0x00, 0x00, 0x00, 0xFF), cube); // Black
-            else if (cube->map[x][y] == 'W')
-                ft_render_pixel( y, x, ft_pixel(0x00, 0x00, 0x00, 0xFF), cube); // Turquoise
-
-            y++;
-        }
-        x++;
-    }
-    ft_render_pixel_player(ft_pixel(0xFF, 0x00, 0x00, 0xFF), cube); // Red
+    // rander_map(cube, image);
+    rander_wall(ft_pixel(0xFF, 0x00, 0x00, 0xFF), cube); // Red
 }
 
 void ft_hook(void* param)
@@ -157,52 +101,57 @@ void ft_hook(void* param)
 
     if (mlx_is_key_down(cube->mlx, MLX_KEY_ESCAPE))
         mlx_close_window(cube->mlx);
-
-    // Rotate player
     if (mlx_is_key_down(cube->mlx, MLX_KEY_LEFT))
     {
-        cube->player_angle -= 0.04;
-        printf("angle = %f\n", cube->player_angle);
+        cube->player_angle -= 0.02;
+        if (cube->player_angle < 0)
+            cube->player_angle += 2 * M_PI;
     }
     if (mlx_is_key_down(cube->mlx, MLX_KEY_RIGHT))
-        cube->player_angle += 0.04;
-
+    {
+        cube->player_angle += 0.02;
+        cube->player_angle = fmod(cube->player_angle, 2 * M_PI);
+    }
     double new_x = cube->player_X_pixel;
     double new_y = cube->player_Y_pixel;
 
     if (mlx_is_key_down(cube->mlx, MLX_KEY_W))
     {
-        new_x += cos(cube->player_angle) * 1; // Adjust speed as needed
+        new_x += cos(cube->player_angle) * 1; 
         new_y += sin(cube->player_angle) * 1;
-        printf("x %f\n", new_x);
-        printf("y %f\n", new_y);
     }
     if (mlx_is_key_down(cube->mlx, MLX_KEY_S))
     {
-        new_x -= cos(cube->player_angle) * 1; // Adjust speed as needed
-        new_y -= sin(cube->player_angle) * 1; // Adjust speed as needed
+        new_x -= cos(cube->player_angle) * 1; 
+        new_y -= sin(cube->player_angle) * 1; 
     }
     if (mlx_is_key_down(cube->mlx, MLX_KEY_A))
     {
-        new_x -= cos(M_PI_2 + cube->player_angle) * 1; // Adjust speed as needed
-        new_y -= sin(M_PI_2 + cube->player_angle) * 1; // Adjust speed as needed
-        printf("Ax %f\n", new_x);
+        new_x -= cos(M_PI_2 + cube->player_angle) * 1;
+        new_y -= sin(M_PI_2 + cube->player_angle) * 1;
     }
     if (mlx_is_key_down(cube->mlx, MLX_KEY_D))
     {
-        new_x += cos(M_PI_2 + cube->player_angle) * 1; // Adjust speed as needed
-        new_y += sin(M_PI_2 + cube->player_angle) * 1; // Adjust speed as needed
-        printf("Dx %f\n", new_x);
+        new_x += cos(M_PI_2 + cube->player_angle) * 1;
+        new_y += sin(M_PI_2 + cube->player_angle) * 1;
     }
-    if (cube->map[(int)(new_y / cube->y_pixel)][(int)(new_x / cube->x_pixel)] != '1')
+    if (cube->map[(int)(new_y / TILE_SIZE)][(int)(new_x / TILE_SIZE)] == '0' || cube->map[(int)(new_y / TILE_SIZE)][(int)(new_x / TILE_SIZE)] == 'W')
     {
         cube->player_X_pixel = new_x;
         cube->player_Y_pixel = new_y;
     }
-
     ft_randomize(cube);
 }
 
+t_cube* init_game(void) {
+    t_cube *cube = malloc(sizeof(t_cube)); // Allocated on the heap
+    if (!cube) {
+        perror("Failed to allocate memory");
+        exit(EXIT_FAILURE);
+    }
+    cube->player_angle = 0.0;
+    return cube; // Safe: Returning a pointer to heap memory
+}
 
 int main(int argc, char **argv)
 {
@@ -217,15 +166,9 @@ int main(int argc, char **argv)
 
     cube.mlx = mlx_init((int32_t)WIDTH , (int32_t)HEIGHT, "MLX42", false);
     image = mlx_new_image(cube.mlx, (int32_t)WIDTH, (int32_t)HEIGHT);
-	
-    cube.x_pixel = (float)WIDTH / (float)cube.width;
-    cube.y_pixel = (float)HEIGHT / (float)cube.height;
-    printf("x_pixel = %f\n", cube.x_pixel);
-    printf("y_pixel = %f\n", cube.y_pixel);
     get_player_position(&cube);
     
     cube.player_angle = 0;
-    // Calculate player's pixel position
     mlx_image_to_window(cube.mlx, image, 0, 0);
     ft_randomize(&cube);
     mlx_loop_hook(cube.mlx, ft_hook, &cube);

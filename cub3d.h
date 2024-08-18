@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hboudar <hboudar@student.42.fr>            +#+  +:+       +#+        */
+/*   By: aghounam <aghounam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/25 10:03:24 by hboudar           #+#    #+#             */
-/*   Updated: 2024/07/29 18:29:37 by hboudar          ###   ########.fr       */
+/*   Updated: 2024/08/18 18:55:12 by aghounam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,14 @@
 # include "../MLX42/include/MLX42/MLX42.h"
 # include <fcntl.h>
 
-#define WIDTH  1200
-#define HEIGHT 600
+#define WIDTH  1344
+#define HEIGHT 768
+#define TILE_SIZE 64
+#define FOV 60 * (M_PI / 180)
+
+ // we cam define a range of angle from 0 to 2 as right_down_rays
+    // from 2 to 4 as left_down_rays
+
 
 typedef struct s_texture
 {
@@ -48,14 +54,22 @@ typedef struct s_cube
     t_texture texture;
     int     height;
     int     width;
-    double    x_pixel;
-    double    y_pixel;
+    int     columx;
+    int     columy;
     double     fd;
     double     playerX;
     double     playerY;
     double     player_X_pixel;
     double     player_Y_pixel;
     double player_angle;
+    double  orizontal_position_x;
+    double  orizontal_position_y;
+    double  vertical_position_x;
+    double  vertical_position_y;
+    int  RIGHT_DOWN_RAYS;
+    int  LEFT_DOWN_RAYS;
+    int  RIGHT_UP_RAYS;
+    int  LEFT_UP_RAYS;
 }   t_cube;
 
 
@@ -75,5 +89,16 @@ int just_space(char *str);
 
 //tmp
 void	print_file(t_cube *cube);
+
+
+// ray_casting
+void    right_rays(t_cube *cube, mlx_image_t *image, double angle);
+int32_t ft_pixel(int32_t r, int32_t g, int32_t b, int32_t a);
+void    left_right_rays(t_cube *cube, mlx_image_t *image, double angle);
+void    down_leftrays(t_cube *cube, mlx_image_t *image, double angle);
+void    down_rightrays(t_cube *cube, mlx_image_t *image, double angle);
+void    rander_map(t_cube *cube, mlx_image_t *image);
+// void    ft_render_pixel(int32_t x, int32_t y, int32_t color, t_cube *cube);
+int32_t ft_pixel(int32_t r, int32_t g, int32_t b, int32_t a);
 
 #endif
