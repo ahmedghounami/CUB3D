@@ -2,7 +2,7 @@
 
 This is the CUB3D project.
 
-## Screenshot
+## Screenshot :
 
 ### MANDATORY
 ![Image 1](https://github.com/aghounami/CUB3D/raw/master/images/image1.png)
