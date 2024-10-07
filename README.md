@@ -5,11 +5,11 @@ This is the CUB3D project.
 ## Screenshots :
 
 ### MANDATORY
-    ---------
+    
 ![Image 1](https://github.com/aghounami/CUB3D/raw/master/images/image1.png)
 
 ### BONUS
-    -----
+    
 ![Image 1](https://github.com/aghounami/CUB3D/raw/master/images/image2.png)
 
 
