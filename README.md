@@ -30,7 +30,7 @@ To get started with CUB3D, follow these steps:
    <pre><code>cd CUB3D</code></pre>
    ## Mandatory part :
    <pre><code>make</code></pre>
-   <pre><code>./cub3D maps/mini.cub </code></pre>
+   <pre><code>./cub3D maps/m_map.cub.cub </code></pre>
    ## Bonus part
    <pre><code>make bonus</code></pre>
-   <pre><code>./cub3D_bonus maps/mini.cub </code></pre>
+   <pre><code>./cub3D_bonus maps/b_map.cub.cub </code></pre>
