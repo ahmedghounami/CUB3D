@@ -4,8 +4,8 @@ This is the CUB3D project.
 
 ## Screenshot
 
-![Image 1](https://github.com/aghounami/CUB3D/raw/master/image1.png)
-![Image 1](https://github.com/aghounami/CUB3D/raw/master/image2.png)
+![Image 1](https://github.com/aghounami/CUB3D/raw/master/images/image1.png)
+![Image 1](https://github.com/aghounami/CUB3D/raw/master/images/image2.png)
 
 
 CUB3D is an exciting project that allows you to explore the principles of ray-casting by creating a dynamic 3D view inside a maze. Inspired by the classic Wolfenstein 3D game, this project provides a hands-on experience with fundamental concepts in graphics and game development.
