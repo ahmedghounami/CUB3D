@@ -1,29 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strdup.c                                        :+:      :+:    :+:   */
+/*   cub3d.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hboudar <hboudar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/11/07 19:57:45 by hboudar           #+#    #+#             */
-/*   Updated: 2024/09/08 15:35:56 by hboudar          ###   ########.fr       */
+/*   Created: 2024/07/25 10:03:57 by hboudar           #+#    #+#             */
+/*   Updated: 2024/09/24 15:33:25 by hboudar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "includes/cub3d.h"
 
-char	*ft_strdup(const char *s1)
+int	main(int argc, char *argv[])
 {
-	char	*result;
-	size_t	len;
+	t_cube	cube;
 
-	if (!s1)
-		return (NULL);
-	len = ft_strlen(s1);
-	result = malloc(sizeof(char) * (len + 1));
-	if (!result)
-		return (NULL);
-	ft_memcpy(result, s1, len);
-	result[len] = '\0';
-	return (result);
+	is_map_valid(argc, argv, &cube);
+	init_exec(&cube, &cube.player);
+	return (EXIT_SUCCESS);
 }
