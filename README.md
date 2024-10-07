@@ -7,7 +7,7 @@ This is the CUB3D project.
 ### MANDATORY
 ![Image 1](https://github.com/aghounami/CUB3D/raw/master/images/image1.png)
 
-###BONUS
+### BONUS
 ![Image 1](https://github.com/aghounami/CUB3D/raw/master/images/image2.png)
 
 
