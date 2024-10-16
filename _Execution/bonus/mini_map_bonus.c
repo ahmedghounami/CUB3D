@@ -6,7 +6,7 @@
 /*   By: hboudar <hboudar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/28 16:15:53 by hboudar           #+#    #+#             */
-/*   Updated: 2024/10/06 09:48:13 by hboudar          ###   ########.fr       */
+/*   Updated: 2024/10/10 14:51:14 by hboudar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,7 +105,7 @@ void	draw_mini_map(t_cube *cube, t_player *player, double x, double y)
 		}
 	}
 	draw_player(cube, 4, 0, 0);
-	draw_line(cube, &cube->player, &cube->exec);
+	draw_line(cube, player, &cube->exec);
 }
 
 void	minimap(t_cube *cube, t_player *player, double x, double y)

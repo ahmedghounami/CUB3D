@@ -6,7 +6,7 @@
 /*   By: hboudar <hboudar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 09:53:17 by hboudar           #+#    #+#             */
-/*   Updated: 2024/10/06 14:59:36 by hboudar          ###   ########.fr       */
+/*   Updated: 2024/10/16 17:33:17 by hboudar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,8 +49,6 @@ int	check_wall(double x, double y, t_cube *cube)
 	map_y = floor(y / TILE);
 	if (map_x < 0 || map_x >= cube->window.width
 		|| map_y < 0 || map_y >= cube->window.height)
-		return (1);
-	if ((int)ft_strlen(cube->pars.map[map_y]) <= map_x)
 		return (1);
 	if (cube->exec.mode && cube->pars.map[map_y][map_x] == 'O')
 	{

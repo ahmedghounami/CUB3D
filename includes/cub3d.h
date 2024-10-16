@@ -6,7 +6,7 @@
 /*   By: aghounam <aghounam@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/25 10:03:24 by hboudar           #+#    #+#             */
-/*   Updated: 2024/10/07 16:00:48 by aghounam         ###   ########.fr       */
+/*   Updated: 2024/10/16 17:53:02 by aghounam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@
 # define HEIGHT 600
 # define TILE 22
 # define PROJECT_PLANE 866.0254037844
-# define ROTATION_SPEED 0.06030300258
+# define ROTATION_SPEED 0.05030250258
 # define MOVE_SPEED 1.2
 # define FOV 1.0471975511965976
 # define FOV_ANGLE 1.0471975512
@@ -104,6 +104,7 @@ void	check_map_name(int argc, char *name, int i);
 void	initialize_list(t_cube *cube, char *map);
 int		check_elem(char **map, t_cube *cube);
 void	get_element(t_cube *cube, char *str, char mode);
+void	add_spaces(t_cube *cube, char *tmp, int x, int y);
 int		check_map(char **map, int x, int y);
 int		skip_space(char *str, int mode);
 int		skip_line(t_pars *pars, int i, int mode);

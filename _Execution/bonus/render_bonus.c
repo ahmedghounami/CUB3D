@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   render_bonus.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aghounam <aghounam@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hboudar <hboudar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 14:57:51 by hboudar           #+#    #+#             */
-/*   Updated: 2024/10/07 15:59:31 by aghounam         ###   ########.fr       */
+/*   Updated: 2024/10/10 14:51:10 by hboudar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,55 +81,4 @@ void	render_window(t_cube *cube, t_exec *exec, t_player *player, t_win *wind)
 		exec->walltop_pixel -= (exec->wallstripheight - HEIGHT) / 2;
 	render_sky(cube, exec, player, wind);
 	render_wall(cube, exec, player, wind);
-}
-
-void	render_weapons(mlx_image_t *image, mlx_texture_t *picture)
-{
-	uint32_t	start_x;
-	uint32_t	start_y;
-	uint32_t	weapon_x;
-	uint32_t	weapon_y;
-	uint32_t	color;
-
-	weapon_x = 0;
-	weapon_y = 0;
-	start_x = (WIDTH - picture->width) / 2;
-	start_y = HEIGHT - picture->height;
-	while (weapon_y < picture->height)
-	{
-		weapon_x = 0;
-		while (weapon_x < picture->width)
-		{
-			color = get_pixel(picture, weapon_x, weapon_y);
-			if (((color >> 24) & 0xFF) != 0)
-				mlx_put_pixel(image, start_x + weapon_x, \
-				start_y + weapon_y, color);
-			weapon_x++;
-		}
-		weapon_y++;
-	}
-}
-
-void	draw_sprite(t_cube *cube, t_sprite *sprite, int w, int h)
-{
-	sprite->start_x = 245 + w;
-	sprite->start_y = h + 10;
-	sprite->s_x = 0;
-	sprite->s_y = 0;
-	while (sprite->s_y < sprite->sprite[sprite->i]->height
-		&& sprite->s_y + sprite->start_y < HEIGHT)
-	{
-		sprite->s_x = 0;
-		while (sprite->s_x < sprite->sprite[sprite->i]->width
-			&& sprite->s_x + sprite->start_x < WIDTH)
-		{
-			sprite->color = get_pixel(sprite->sprite[sprite->i],
-					sprite->s_x, sprite->s_y);
-			if (((sprite->color >> 24) & 0xFF) != 0)
-				mlx_put_pixel(cube->image, sprite->start_x + sprite->s_x,
-					sprite->start_y + sprite->s_y, sprite->color);
-			sprite->s_x++;
-		}
-		sprite->s_y++;
-	}
 }

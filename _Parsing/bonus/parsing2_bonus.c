@@ -131,7 +131,7 @@ int	check_elem(char **map, t_cube *cube)
 					cube->player.way = map[y][x]);
 			x++;
 		}
-		(y > cube->window.width) && (cube->window.width = x);
+		(x > cube->window.width) && (cube->window.width = x);
 		y++;
 	}
 	cube->window.height = y;

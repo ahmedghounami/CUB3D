@@ -2,15 +2,15 @@ NAME			=	cub3D
 NAME_BONUS		=	cub3D_bonus
 
 SRC				=	cub3d.c \
-					_Parsing/mandatory/parsing1.c _Parsing/mandatory/parsing2.c _Parsing/mandatory/parsing_utils.c \
+					_Parsing/mandatory/parsing1.c _Parsing/mandatory/parsing2.c _Parsing/mandatory/parsing_utils1.c _Parsing/mandatory/parsing_utils2.c \
 					_Execution/mandatory/execution.c _Execution/mandatory/key_pressed.c _Execution/mandatory/ray_casting.c \
 					_Execution/mandatory/render.c _Execution/mandatory/execution_utils.c \
 					Utils/error.c
 SRC_BONUS		=	cub3d_bonus.c \
-					_Parsing/bonus/parsing1_bonus.c _Parsing/bonus/parsing2_bonus.c _Parsing/bonus/parsing_utils_bonus.c \
+					_Parsing/bonus/parsing1_bonus.c _Parsing/bonus/parsing2_bonus.c _Parsing/bonus/parsing_utils1_bonus.c _Parsing/bonus/parsing_utils2_bonus.c \
 					_Execution/bonus/execution_bonus.c _Execution/bonus/key_pressed_bonus.c _Execution/bonus/ray_casting_bonus.c \
-					_Execution/bonus/render_bonus.c _Execution/bonus/mini_map_bonus.c _Execution/bonus/execution_utils_bonus.c \
-					Utils/error_bonus.c
+					_Execution/bonus/render_bonus.c _Execution/bonus/mini_map_bonus.c _Execution/bonus/animation_bonus.c \
+					_Execution/bonus/execution_utils_bonus.c Utils/error_bonus.c
 
 OBJS			=	$(SRC:.c=.o)
 OBJS_BONUS		=	${SRC_BONUS:_bonus.c=_bonus.o}
