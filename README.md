@@ -2,10 +2,15 @@
 
 This is the CUB3D project.
 
-## Screenshot
+## Screenshots :
 
-![Image 1](https://github.com/aghounami/CUB3D/raw/master/image1.png)
-![Image 1](https://github.com/aghounami/CUB3D/raw/master/image2.png)
+### MANDATORY
+    
+![Image 1](https://github.com/aghounami/CUB3D/raw/master/images/image1.png)
+
+### BONUS
+    
+![Image 1](https://github.com/aghounami/CUB3D/raw/master/images/image2.png)
 
 
 CUB3D is an exciting project that allows you to explore the principles of ray-casting by creating a dynamic 3D view inside a maze. Inspired by the classic Wolfenstein 3D game, this project provides a hands-on experience with fundamental concepts in graphics and game development.
@@ -30,7 +35,7 @@ To get started with CUB3D, follow these steps:
    <pre><code>cd CUB3D</code></pre>
    ## Mandatory part :
    <pre><code>make</code></pre>
-   <pre><code>./cub3D maps/mini.cub </code></pre>
+   <pre><code>./cub3D maps/m_map.cub.cub </code></pre>
    ## Bonus part
    <pre><code>make bonus</code></pre>
-   <pre><code>./cub3D_bonus maps/mini.cub </code></pre>
+   <pre><code>./cub3D_bonus maps/b_map.cub.cub </code></pre>
